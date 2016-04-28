@@ -1,0 +1,74 @@
+*** Settings ***
+Suite Setup       suitesetup
+Test Teardown     teardown
+Resource          ../../extras/ExternalDependency.txt
+Resource          ../../extras/Generic.txt
+Resource          FunctionLibrary.txt
+Library           Selenium2Library
+Library           fnmatch
+Library           DateTime
+
+*** Test Cases ***
+Retailer Barred
+    Comment    Set Selenium Speed    2 seconds
+    ${url}=    GetConfig    url
+    ${Browser}=    GetConfig    Browser
+    Open Browser    ${url}    ${Browser}
+    ${overridelinkid}=    GetObjectLocator    Login    Overridelinkid
+    Click Element    ${overridelinkid}
+    Comment    Try to fetch all Login data related to Locator and Xpath \ from Excel to varriable for further use
+    ${AdminLoginid}=    GetTestData    Subscriber    EN    AdminLoginid
+    ${loginidPassword}=    GetTestData    Subscriber    EN    Password
+    ${loginbuttonid}=    GetObjectLocator    Login    LoginButtonid
+    ${Loginid}=    GetObjectLocator    Login    Loginid
+    ${LoginPasswordid}=    GetObjectLocator    Login    LoginPasswordid
+    Input Text    ${Loginid}    ${AdminLoginid}
+    Input Text    ${LoginPasswordid}    ${loginidPassword}
+    Click Element    ${loginbuttonid}
+    Comment    Once Login Sucessfully try to select the Frame \ for Barred Channel user /Subscriber/Operator Users
+    ${Framexpath}=    GetObjectLocator    AdminMainPage    Adminmainpageframexpath
+    Select Frame    ${Framexpath}
+    ${OperatorUserxpath}=    GetObjectLocator    AdminMainPage    OperatorUserxpath
+    Wait Until Element Is Visible    ${OperatorUserxpath}    50 seconds
+    Click Element    ${OperatorUserxpath}
+    ${AdminBarUserxpath}=    GetObjectLocator    AdminMainPage    AdminBarUserxpath
+    Wait Until Element Is Visible    ${AdminBarUserxpath}
+    Click Element    ${AdminBarUserxpath}
+    Sleep    2s
+    ${UserTypexpath}=    GetObjectLocator    AdminMainPage    UserTypexpath
+    Click Element    ${UserTypexpath}
+    Sleep    2s
+    ${UserTypevaluexpath}=    GetObjectLocator    AdminMainPage    UserTypevaluexpath
+    Click Element    ${UserTypevaluexpath}
+    sleep    2s
+    ${BarMsisdnId}=    GetObjectLocator    AdminMainPage    BarMsisdnId
+    ${MSISDN}=    GetTestData    Channel    EN    ChannelMSISDN
+    Input Text    ${BarMsisdnId}    ${MSISDN}
+    sleep    2s
+    ${ProviderListxpath}=    GetObjectLocator    AdminMainPage    ProviderListxpath
+    ${ProviderListValuexpath}=    GetObjectLocator    AdminMainPage    ProviderListValuexpath
+    Click Element    ${ProviderListxpath}
+    sleep    2s
+    Click Element    ${ProviderListValuexpath}
+    sleep    2s
+    ${BarTypexpath}=    GetObjectLocator    AdminMainPage    BarTypexpath
+    ${BarTypeValuexpath}=    GetObjectLocator    AdminMainPage    BarTypeValuexpath
+    Click Element    ${BarTypexpath}
+    sleep    2s
+    Click Element    ${BarTypeValuexpath}
+    sleep    2s
+    ${BarReasonxpath}=    GetObjectLocator    AdminMainPage    BarReasonxpath
+    Click Element    ${BarReasonxpath}
+    sleep    2s
+    ${BarReasonvaluexpath}=    GetObjectLocator    AdminMainPage    BarReasonvaluexpath
+    Click Element    ${BarReasonvaluexpath}
+    sleep    2s
+    ${BarButtonId}=    GetObjectLocator    AdminMainPage    BarButtonId
+    ${Barremarksid}=    GetObjectLocator    AdminMainPage    Barremarksid
+    ${BarType}=    GetTestData    Common    EN    BarTypeBoth
+    Input Text    ${Barremarksid}    ${BarType}
+    sleep    2s
+    Click Element    ${BarButtonId}
+    sleep    2s
+    ${Barconfirmbuttonid}=    GetObjectLocator    AdminMainPage    Barconfirmbuttonid
+    Click Element    ${Barconfirmbuttonid}
